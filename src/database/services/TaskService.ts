@@ -1,3 +1,4 @@
+import UtilsHelper from '@/helpers/UtilsHelper'
 import Paging from '@/types/core/Paging'
 import { CreateTask, Task, UpdateTask } from '@/types/models/Task'
 import { GetTasks } from '@/types/requests/GetTasks'
@@ -17,14 +18,16 @@ export default class TaskService {
   }
 
   static async create(data: CreateTask): Promise<Task | null> {
-    const document: HydratedDocument<ITask> | null = await TaskModel.create({ ...data })
+    const slug: string = UtilsHelper.slugify(data.title) ?? ''
+    const document: HydratedDocument<ITask> | null = await TaskModel.create({ ...data, slug })
     return BaseModel.toJSON<ITask, Task>(document)
   }
 
   static async update(id: string, data: UpdateTask): Promise<Task | null> {
+    const slug: string = UtilsHelper.slugify(data.title) ?? ''
     const document: HydratedDocument<ITask> | null = await TaskModel.findOneAndUpdate(
       { _id: id },
-      { $set: { ...data } },
+      { $set: { ...data, slug } },
       { new: true }
     )
     return BaseModel.toJSON<ITask, Task>(document)

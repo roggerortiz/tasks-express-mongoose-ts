@@ -1,6 +1,5 @@
 import TaskService from '@/database/services/TaskService'
 import RequestHelper from '@/helpers/RequestHelper'
-import UtilsHelper from '@/helpers/UtilsHelper'
 import Paging from '@/types/core/Paging'
 import ResponseStatus from '@/types/enums/ResponseStatus'
 import NotFoundError from '@/types/errors/NotFoundError'
@@ -45,7 +44,6 @@ export default class TaskController {
     try {
       const data: CreateTask = {
         title: req.body.title,
-        slug: UtilsHelper.slugify(req.body.title) ?? '',
         description: req.body.description,
         important: req.body.important,
         user_id: req.user?.id?.toString() || ''
@@ -62,7 +60,6 @@ export default class TaskController {
       const id: string = req.params.id
       const data: UpdateTask = {
         title: req.body.title,
-        slug: UtilsHelper.slugify(req.body.title),
         description: req.body.description,
         important: req.body.important
       }

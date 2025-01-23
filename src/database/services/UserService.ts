@@ -5,7 +5,12 @@ import BaseModel from '../models/BaseModel'
 import UserModel, { IUser } from '../models/UserModel'
 
 export default class UserService {
-  static async authenticate(username: string, password: string): Promise<User | null> {
+  static async count(filters?: any): Promise<number> {
+    const count: number = await UserModel.countDocuments(filters)
+    return count
+  }
+
+  static async login(username: string, password: string): Promise<User | null> {
     const document: HydratedDocument<IUser> | null = await UserModel.findOne({ username })
     const user: User | null = BaseModel.toJSON<IUser, User>(document)
     const result: boolean = user ? await PasswordHelper.compare(password, user.password) : false
@@ -18,7 +23,8 @@ export default class UserService {
     return user
   }
 
-  static async create(data: CreateUser): Promise<User | null> {
+  static async signup(data: CreateUser): Promise<User | null> {
+    data.password = await PasswordHelper.hash(data.password)
     const document: HydratedDocument<IUser> | null = await UserModel.create({ ...data })
     const user: User | null = BaseModel.toJSON<IUser, User>(document)
 

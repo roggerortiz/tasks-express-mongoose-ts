@@ -11,7 +11,7 @@ export default class AuthController {
     try {
       const username: string = req.body.username
       const password: string = req.body.password
-      const user: User | null = await UserService.authenticate(username, password)
+      const user: User | null = await UserService.login(username, password)
 
       if (!user) {
         throw new BadRequestError('Invalid username or password')
@@ -28,12 +28,34 @@ export default class AuthController {
     try {
       const data: CreateUser = {
         first_name: req.body.first_name,
-        last_name: req.body.lastName,
+        last_name: req.body.last_name,
         email: req.body.email,
+        phone: req.body.phone,
         username: req.body.username,
         password: req.body.password
       }
-      const user: User | null = await UserService.create(data)
+
+      const emailCount: number = await UserService.count({ email: data.email })
+
+      if (emailCount) {
+        throw new BadRequestError('Email already exists')
+      }
+
+      const usernameCount: number = await UserService.count({ username: data.username })
+
+      if (usernameCount) {
+        throw new BadRequestError('Username already exists')
+      }
+
+      if (data.phone) {
+        const phoneCount: number = await UserService.count({ phone: data.phone })
+
+        if (phoneCount) {
+          throw new BadRequestError('Phone already exists')
+        }
+      }
+
+      const user: User | null = await UserService.signup(data)
 
       if (!user) {
         throw new BadRequestError()

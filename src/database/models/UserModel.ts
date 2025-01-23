@@ -10,7 +10,7 @@ export interface IUser {
   password: string
 }
 
-const UserSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser>(
   {
     first_name: {
       type: String,
@@ -22,15 +22,18 @@ const UserSchema = new Schema<IUser>(
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     phone: {
       type: String,
-      required: false
+      required: false,
+      unique: true
     },
     username: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     password: {
       type: String,
@@ -42,6 +45,6 @@ const UserSchema = new Schema<IUser>(
   }
 )
 
-const UserModel = model<IUser, Model<IUser>>('users', UserSchema)
+const UserModel = model<IUser, Model<IUser>>('users', userSchema)
 
 export default UserModel

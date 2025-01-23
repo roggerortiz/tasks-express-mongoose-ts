@@ -9,7 +9,7 @@ export interface ITask {
   user_id: Types.ObjectId
 }
 
-const TaskSchema = new Schema<ITask>(
+const taskSchema = new Schema<ITask>(
   {
     title: {
       type: String,
@@ -38,6 +38,6 @@ const TaskSchema = new Schema<ITask>(
   }
 )
 
-const TaskModel = model<ITask, Model<ITask>>('tasks', TaskSchema)
+const TaskModel = model<ITask, Model<ITask>>('tasks', taskSchema)
 
 export default TaskModel
