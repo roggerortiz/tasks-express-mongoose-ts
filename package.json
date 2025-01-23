@@ -1,0 +1,44 @@
+{
+  "name": "tasks-express-mongoose-ts",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env --clear-screen=false --include \"./src/**/*\" ./src/index.ts",
+    "build": "rimraf ./build && tsc --build",
+    "start": "node --env-file=.env ./build/index.js",
+    "prettier": "prettier ./src --write --config ./.prettierrc.json",
+    "lint": "eslint ./src --fix"
+  },
+  "keywords": [],
+  "author": "Rogger Ortiz <rogger.ortiz.br@gmail.com> (https://github.com/roggerortiz)",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "5.1.1",
+    "cors": "2.8.5",
+    "date-fns": "4.1.0",
+    "express": "4.21.1",
+    "helmet": "8.0.0",
+    "jsonwebtoken": "9.0.2",
+    "mongoose": "8.8.2",
+    "rimraf": "6.0.1",
+    "validator": "13.12.0",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "5.0.2",
+    "@types/cors": "2.8.17",
+    "@types/eslint-config-prettier": "6.11.3",
+    "@types/express": "5.0.0",
+    "@types/jsonwebtoken": "9.0.7",
+    "@types/node": "22.9.1",
+    "@types/validator": "13.12.2",
+    "@typescript-eslint/eslint-plugin": "8.15.0",
+    "@typescript-eslint/parser": "8.15.0",
+    "eslint": "9.15.0",
+    "eslint-config-prettier": "9.1.0",
+    "prettier": "3.3.3",
+    "tsx": "4.19.2",
+    "typescript": "5.6.3"
+  }
+}
