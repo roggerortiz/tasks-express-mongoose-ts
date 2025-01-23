@@ -1,3 +1,4 @@
+import PasswordHelper from '@/helpers/PasswordHelper'
 import validator from 'validator'
 import { z } from 'zod'
 
@@ -23,10 +24,20 @@ const signupSchema = z
       .min(2, "The 'Username' field must contain at least 2 characters"),
     password: z
       .string({ message: "The 'Password' field is required" })
-      .min(6, "The 'Password' field must contain at least 6 characters"),
+      .min(8, "The 'Password' field must contain at least 8 characters")
+      .max(20, "The 'Password' field must contain maximum 20 characters")
+      .refine(
+        (value) => PasswordHelper.validate(value),
+        "The 'Password' field must contain at least one uppercase letter, one lowercase letter, one number and one special character"
+      ),
     password_confirm: z
       .string({ message: "The 'Password Confirm' field is required" })
-      .min(6, "The 'Password' field must contain at least 6 characters")
+      .min(8, "The 'Password Confirm' field must contain at least 8 characters")
+      .max(20, "The 'Password Confirm' field must contain maximum 20 characters")
+      .refine(
+        (value) => PasswordHelper.validate(value),
+        "The 'Password Confirm' field must contain at least one uppercase letter, one lowercase letter, one number and one special character"
+      )
   })
   .superRefine(({ password, password_confirm }, ctx) => {
     if (password !== password_confirm) {
