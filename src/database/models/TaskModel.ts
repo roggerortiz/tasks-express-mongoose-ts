@@ -15,6 +15,7 @@ const taskSchema = new Schema<ITask>(
   {
     title: {
       type: String,
+      unique: true,
       required: true
     },
     slug: {
@@ -49,6 +50,6 @@ const TaskModel = model<ITask, Model<ITask>>('Task', taskSchema, 'tasks')
 
 taskSchema
   .path('title')
-  .validate(MongooseHelper.uniqueValidatorFn<ITask>(models.Task, 'title'), "The 'Title' field value already exists")
+  .validate(MongooseHelper.uniqueValidatorFn<ITask>(models.Task, 'title'), "The 'Title' value already exists")
 
 export default TaskModel

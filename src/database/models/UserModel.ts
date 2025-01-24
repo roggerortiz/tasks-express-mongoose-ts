@@ -24,18 +24,18 @@ const userSchema = new Schema<IUser>(
     },
     email: {
       type: String,
-      required: true,
-      unique: true
+      unique: true,
+      required: true
     },
     phone: {
       type: String,
-      required: true,
-      unique: true
+      unique: true,
+      required: true
     },
     username: {
       type: String,
-      required: true,
-      unique: true
+      unique: true,
+      required: true
     },
     password: {
       type: String,
@@ -56,17 +56,14 @@ const UserModel = model<IUser, Model<IUser>>('User', userSchema, 'users')
 
 userSchema
   .path('email')
-  .validate(MongooseHelper.uniqueValidatorFn<IUser>(models.User, 'email'), "The 'Email' field value already exists")
+  .validate(MongooseHelper.uniqueValidatorFn<IUser>(models.User, 'email'), "The 'Email' value already exists")
 
 userSchema
   .path('phone')
-  .validate(MongooseHelper.uniqueValidatorFn<IUser>(models.User, 'phone'), "The 'Phone' field value already exists")
+  .validate(MongooseHelper.uniqueValidatorFn<IUser>(models.User, 'phone'), "The 'Phone' value already exists")
 
 userSchema
   .path('username')
-  .validate(
-    MongooseHelper.uniqueValidatorFn<IUser>(models.User, 'username'),
-    "The 'Username' field value already exists"
-  )
+  .validate(MongooseHelper.uniqueValidatorFn<IUser>(models.User, 'username'), "The 'Username' value already exists")
 
 export default UserModel
