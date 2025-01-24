@@ -1,9 +1,9 @@
 import MongooseHelper from '@/helpers/MongooseHelper'
-import AggregateOpt from '@/types/core/AggregateOpt'
-import Pager from '@/types/core/Pager'
-import Paging from '@/types/core/Paging'
 import SortDirection from '@/types/enums/SortDirection'
+import AggregateOpt from '@/types/mongoose/AggregateOpt'
 import { Model } from '@/types/mongoose/Model'
+import Pager from '@/types/pagination/Pager'
+import Paging from '@/types/pagination/Paging'
 import { HydratedDocument, PipelineStage } from 'mongoose'
 
 export default class BaseModel {
@@ -13,10 +13,10 @@ export default class BaseModel {
     filters: any,
     extra?: AggregateOpt
   ): Promise<Paging<RT>> {
-    const pageSize: number = pager.pageSize || 0
-    const pageIndex: number = pager.pageIndex || 1
-    const sortField: string = pager?.sortField?.trim()?.toLowerCase() || 'date'
-    const sortDirection: string = pager?.sortDirection?.trim() || SortDirection.DESC
+    const pageSize: number = pager.page_size || 0
+    const pageIndex: number = pager.page_index || 1
+    const sortField: string = pager?.sort_field?.trim()?.toLowerCase() || 'date'
+    const sortDirection: string = pager?.sort_direction?.trim() || SortDirection.ASC
 
     const match: any = MongooseHelper.aggregateMatch(filters)
     const sort: any = MongooseHelper.aggregateSort(sortField, sortDirection)
@@ -26,12 +26,12 @@ export default class BaseModel {
 
     const paging: Paging<RT> = {
       pager: {
-        pageSize,
-        pageIndex,
-        pageCount: 0,
-        sortField,
-        sortDirection,
-        totalItems: 0
+        page_size: pageSize,
+        page_index: pageIndex,
+        page_count: 0,
+        sort_field: sortField,
+        sort_direction: sortDirection,
+        total_items: 0
       },
       data: []
     }
@@ -44,8 +44,8 @@ export default class BaseModel {
     const pageCount: number = pageSize ? Math.ceil(totalItems / pageSize) : 1
     const data: RT[] = aggregation[0]?.data ?? []
 
-    paging.pager.pageCount = pageCount
-    paging.pager.totalItems = totalItems
+    paging.pager.page_count = pageCount
+    paging.pager.total_items = totalItems
     paging.data = data
 
     return paging

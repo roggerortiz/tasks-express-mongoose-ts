@@ -1,5 +1,5 @@
-import AggregateOpt from '@/types/core/AggregateOpt'
 import SortDirection from '@/types/enums/SortDirection'
+import AggregateOpt from '@/types/mongoose/AggregateOpt'
 
 export default class MongooseHelper {
   static fullText(phrase: string) {
@@ -12,7 +12,7 @@ export default class MongooseHelper {
     const entries: any[] = Object.entries(filters)
 
     entries
-      .filter(([, value]) => Boolean(value))
+      .filter(([, value]) => value !== undefined)
       .forEach(([key, value]) => {
         if (key.toLowerCase() === 'freetext') {
           match.$text = { $search: MongooseHelper.fullText(value) }

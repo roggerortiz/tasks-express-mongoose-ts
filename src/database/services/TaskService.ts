@@ -1,15 +1,15 @@
 import UtilsHelper from '@/helpers/UtilsHelper'
-import Paging from '@/types/core/Paging'
 import { CreateTask, Task, UpdateTask } from '@/types/models/Task'
+import Pager from '@/types/pagination/Pager'
+import Paging from '@/types/pagination/Paging'
 import { GetTasks } from '@/types/requests/GetTasks'
 import { HydratedDocument } from 'mongoose'
 import BaseModel from '../models/BaseModel'
 import TaskModel, { ITask } from '../models/TaskModel'
 
 export default class TaskService {
-  static async findAll(params: GetTasks): Promise<Paging<Task>> {
-    const { freeText, ...pager } = params
-    return BaseModel.aggregate<ITask, Task>(TaskModel, pager, { freeText })
+  static async findAll(pager: Pager, params: GetTasks): Promise<Paging<Task>> {
+    return BaseModel.aggregate<ITask, Task>(TaskModel, pager, params)
   }
 
   static async findById(id: string): Promise<Task | null> {

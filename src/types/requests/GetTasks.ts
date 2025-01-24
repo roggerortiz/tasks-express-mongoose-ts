@@ -1,5 +1,4 @@
-import Pager from '../core/Pager'
-
-export type GetTasks = Pager & {
-  freeText?: string
+export type GetTasks = {
+  free_text?: string
+  important?: boolean
 }
