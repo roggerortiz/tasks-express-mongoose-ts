@@ -3,11 +3,11 @@ export type User = {
   first_name: string
   last_name: string
   email: string
-  phone?: string
+  phone: string
   username: string
   password: string
 }
 
 export type CreateUser = Omit<User, 'id'>
 
-export type UpdateUser = Partial<CreateUser>
+export type UpdateUser = Omit<User, 'id'>

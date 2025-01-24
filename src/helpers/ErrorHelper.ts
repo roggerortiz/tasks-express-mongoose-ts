@@ -30,6 +30,12 @@ export default class ErrorHelper {
       return { status: ResponseStatus.BAD_REQUEST, errors }
     }
 
+    if (error.constructor.name === 'ValidationError') {
+      const entries: any[] = Object.entries((error as any).errors)
+      const errors = entries.map(([key, error]) => ({ path: key, message: error.message }))
+      return { status: ResponseStatus.BAD_REQUEST, errors: errors }
+    }
+
     const { stack, message } = error
     console.log({ message, stack })
 

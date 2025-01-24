@@ -9,4 +9,4 @@ export type Task = {
 
 export type CreateTask = Omit<Task, 'id' | 'slug'>
 
-export type UpdateTask = Partial<Omit<CreateTask, 'user_id'>>
+export type UpdateTask = Omit<Task, 'id' | 'slug' | 'user_id'>

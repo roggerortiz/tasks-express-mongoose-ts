@@ -1,5 +1,6 @@
+import MongooseHelper from '@/helpers/MongooseHelper'
 import { Model } from '@/types/mongoose/Model'
-import { Schema, Types, model } from 'mongoose'
+import { Schema, Types, model, models } from 'mongoose'
 
 export interface ITask {
   title: string
@@ -38,6 +39,10 @@ const taskSchema = new Schema<ITask>(
   }
 )
 
-const TaskModel = model<ITask, Model<ITask>>('tasks', taskSchema)
+const TaskModel = model<ITask, Model<ITask>>('Task', taskSchema, 'tasks')
+
+taskSchema
+  .path('title')
+  .validate(MongooseHelper.uniqueValidatorFn<ITask>(models.Task, 'title'), "The 'Title' field value already exists")
 
 export default TaskModel

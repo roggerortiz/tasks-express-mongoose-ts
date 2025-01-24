@@ -18,13 +18,13 @@ export default class TaskService {
   }
 
   static async create(data: CreateTask): Promise<Task | null> {
-    const slug: string = UtilsHelper.slugify(data.title) ?? ''
+    const slug: string = UtilsHelper.slugify(data.title)
     const document: HydratedDocument<ITask> | null = await TaskModel.create({ ...data, slug })
     return BaseModel.toJSON<ITask, Task>(document)
   }
 
   static async update(id: string, data: UpdateTask): Promise<Task | null> {
-    const slug: string = UtilsHelper.slugify(data.title) ?? ''
+    const slug: string = UtilsHelper.slugify(data.title)
     const document: HydratedDocument<ITask> | null = await TaskModel.findOneAndUpdate(
       { _id: id },
       { $set: { ...data, slug } },

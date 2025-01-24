@@ -10,6 +10,7 @@
     "moduleResolution": "node16",
     "newLine": "lf",
     "noImplicitAny": true,
+    "noImplicitThis": false,
     "noImplicitReturns": true,
     "outDir": "./build",
     "paths": {

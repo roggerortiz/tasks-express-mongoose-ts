@@ -2,7 +2,7 @@ import PasswordHelper from '@/helpers/PasswordHelper'
 import validator from 'validator'
 import { z } from 'zod'
 
-const signupSchema = z
+const saveUserSchema = z
   .object({
     first_name: z
       .string({ message: "The 'First Name' field is required" })
@@ -11,14 +11,13 @@ const signupSchema = z
       .string({ message: "The 'Last Name' field is required" })
       .min(2, "The 'First Name' field must contain at least 2 characters"),
     email: z
-      .string({ message: "The 'Email' is required" })
+      .string({ message: "The 'Email' field is required" })
       .min(5, "The 'Email' field must contain at least 5 characters")
       .email("The 'Email' field must be an email"),
     phone: z
-      .string()
+      .string({ message: "The 'Phone' field is required" })
       .min(5, "The 'Phone' field must contain at least 5 characters")
-      .refine((value) => validator.isMobilePhone(value, 'es-PE'), "The 'Phone' field must be a phone number")
-      .optional(),
+      .refine((value) => validator.isMobilePhone(value, 'es-PE'), "The 'Phone' field must be a phone number"),
     username: z
       .string({ message: "The 'Username' field is required" })
       .min(2, "The 'Username' field must contain at least 2 characters"),
@@ -49,4 +48,4 @@ const signupSchema = z
     }
   })
 
-export default signupSchema
+export default saveUserSchema

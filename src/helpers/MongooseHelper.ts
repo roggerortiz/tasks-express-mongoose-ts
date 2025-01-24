@@ -1,5 +1,6 @@
 import SortDirection from '@/types/enums/SortDirection'
 import AggregateOpt from '@/types/mongoose/AggregateOpt'
+import { Model } from 'mongoose'
 
 export default class MongooseHelper {
   static fullText(phrase: string) {
@@ -52,5 +53,19 @@ export default class MongooseHelper {
     }
 
     return facet
+  }
+
+  static uniqueValidatorFn<T>(model: Model<T>, field: string) {
+    return async function (value: any) {
+      const self: any = this as any
+      const filters: any = { [field]: { $ne: null, $eq: value } }
+
+      if (!self._id && self.options._id) {
+        filters._id = { $ne: self.options._id }
+      }
+
+      const count: number = await model.countDocuments(filters)
+      return !count
+    }
   }
 }
