@@ -1,3 +1,4 @@
+import SortDirection from '@/types/enums/SortDirection'
 import Pager from '@/types/pagination/Pager'
 import { Request } from 'express'
 
@@ -22,10 +23,10 @@ export default class RequestHelper {
   }
 
   static pager(req: Request): Pager {
-    const page_size = this.queryParamNumber(req, 'page_size') ?? 0
-    const page_index = this.queryParamNumber(req, 'page_index') ?? 1
-    const sort_field = this.queryParamString(req, 'sort_field') ?? ''
-    const sort_direction = this.queryParamString(req, 'sort_direction') ?? ''
+    const page_size = this.queryParamNumber(req, 'page_size') || 0
+    const page_index = this.queryParamNumber(req, 'page_index') || 1
+    const sort_field = this.queryParamString(req, 'sort_field')?.trim()?.toLowerCase() || 'date'
+    const sort_direction = this.queryParamString(req, 'sort_direction')?.trim()?.toLowerCase() || SortDirection.ASC
 
     const pager: Pager = {
       page_size,

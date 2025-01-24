@@ -8,7 +8,8 @@ import TaskModel, { ITask } from '../models/TaskModel'
 
 export default class TaskService {
   static async findAll(pager: Pager, params: GetTasks): Promise<Paging<Task>> {
-    return BaseModel.aggregate<ITask, Task>(TaskModel, pager, params)
+    const taskPaging: Paging<Task> = await BaseModel.paginate<ITask, Task>(TaskModel, pager, params)
+    return taskPaging
   }
 
   static async findById(id: string): Promise<Task | null> {

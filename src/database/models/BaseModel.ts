@@ -1,53 +1,18 @@
 import MongooseHelper from '@/helpers/MongooseHelper'
-import SortDirection from '@/types/enums/SortDirection'
+import PaginationHelper from '@/helpers/PaginationHelper'
 import AggregateOpt from '@/types/mongoose/AggregateOpt'
 import { Model } from '@/types/mongoose/Model'
 import Pager from '@/types/pagination/Pager'
 import Paging from '@/types/pagination/Paging'
-import { HydratedDocument, PipelineStage } from 'mongoose'
+import { HydratedDocument } from 'mongoose'
 
 export default class BaseModel {
-  static async aggregate<T, RT>(
-    model: Model<T>,
-    pager: Pager,
-    filters: any,
-    extra?: AggregateOpt
-  ): Promise<Paging<RT>> {
-    const pageSize: number = pager.page_size || 0
-    const pageIndex: number = pager.page_index || 1
-    const sortField: string = pager?.sort_field?.trim()?.toLowerCase() || 'date'
-    const sortDirection: string = pager?.sort_direction?.trim() || SortDirection.ASC
-
-    const match: any = MongooseHelper.aggregateMatch(filters)
-    const sort: any = MongooseHelper.aggregateSort(sortField, sortDirection)
-    const facet: any = MongooseHelper.aggregateFacet(pageSize, pageIndex, extra)
-    const pipeline: PipelineStage[] = [{ $match: match }, { $sort: sort }, { $facet: facet }]
-    const aggregation: any = await model.aggregate(pipeline)
-
-    const paging: Paging<RT> = {
-      pager: {
-        page_size: pageSize,
-        page_index: pageIndex,
-        page_count: 0,
-        sort_field: sortField,
-        sort_direction: sortDirection,
-        total_items: 0
-      },
-      data: []
-    }
-
-    if (!aggregation?.length) {
-      return paging
-    }
-
-    const totalItems: number = aggregation[0].count[0]?.Count ?? 0
-    const pageCount: number = pageSize ? Math.ceil(totalItems / pageSize) : 1
-    const data: RT[] = aggregation[0]?.data ?? []
-
-    paging.pager.page_count = pageCount
-    paging.pager.total_items = totalItems
-    paging.data = data
-
+  static async paginate<T, RT>(model: Model<T>, pager: Pager, filters: any, extra?: AggregateOpt): Promise<Paging<RT>> {
+    const aggregation: any = await MongooseHelper.aggregation(model, pager, filters, extra)
+    const total_items: number = PaginationHelper.totalItems(aggregation)
+    const page_count: number = PaginationHelper.pageCount(pager.page_size, total_items)
+    const data: RT[] = PaginationHelper.data(aggregation)
+    const paging: Paging<RT> = { pager: { ...pager, total_items, page_count }, data }
     return paging
   }
 
