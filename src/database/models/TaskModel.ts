@@ -20,6 +20,7 @@ const taskSchema = new Schema<ITask>(
     },
     slug: {
       type: String,
+      unique: true,
       required: true,
       set: (value: string) => UtilsHelper.slugify(value)
     },
