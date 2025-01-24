@@ -37,7 +37,11 @@ const taskSchema = new Schema<ITask>(
     }
   },
   {
-    versionKey: false
+    versionKey: false,
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
   }
 )
 
