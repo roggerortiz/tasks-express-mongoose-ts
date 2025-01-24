@@ -51,12 +51,17 @@ export default class BaseModel {
     return paging
   }
 
-  static toJSON<T, RT>(document: HydratedDocument<T> | null): RT | null {
+  static toJSON<T, RT>(document: HydratedDocument<T> | null, omit?: string[]): RT | null {
     if (!document) {
       return null
     }
 
     const { _id, ...data } = document.toJSON({ useProjection: true })
+
+    omit?.forEach((field: string) => {
+      Reflect.deleteProperty(data, field)
+    })
+
     return { id: _id, ...data } as RT
   }
 }
