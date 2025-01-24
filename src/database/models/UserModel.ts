@@ -1,4 +1,5 @@
 import MongooseHelper from '@/helpers/MongooseHelper'
+import PasswordHelper from '@/helpers/PasswordHelper'
 import { Model } from '@/types/mongoose/Model'
 import { Schema, model, models } from 'mongoose'
 
@@ -38,7 +39,8 @@ const userSchema = new Schema<IUser>(
     },
     password: {
       type: String,
-      required: true
+      required: true,
+      set: (value: string) => PasswordHelper.hash(value)
     }
   },
   {

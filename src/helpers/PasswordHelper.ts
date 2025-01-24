@@ -2,14 +2,12 @@ import bcrypt from 'bcrypt'
 import EnvHelper from './EnvHelper'
 
 export default class PasswordHelper {
-  static async hash(password: string): Promise<string> {
-    const hash = await bcrypt.hash(password, EnvHelper.BCRYPT_SALT_ROUNDS)
-    return hash
+  static hash(password: string): string {
+    return bcrypt.hashSync(password, EnvHelper.BCRYPT_SALT_ROUNDS)
   }
 
-  static async compare(password: string, hash: string): Promise<boolean> {
-    const result = await bcrypt.compare(password, hash)
-    return result
+  static compare (password: string, hash: string): boolean {
+    return bcrypt.compareSync(password, hash)
   }
 
   static validate(value?: string) {

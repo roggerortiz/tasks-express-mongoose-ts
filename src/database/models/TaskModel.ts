@@ -1,4 +1,5 @@
 import MongooseHelper from '@/helpers/MongooseHelper'
+import UtilsHelper from '@/helpers/UtilsHelper'
 import { Model } from '@/types/mongoose/Model'
 import { Schema, Types, model, models } from 'mongoose'
 
@@ -18,7 +19,8 @@ const taskSchema = new Schema<ITask>(
     },
     slug: {
       type: String,
-      required: true
+      required: true,
+      set: (value: string) => UtilsHelper.slugify(value)
     },
     description: {
       type: String,
