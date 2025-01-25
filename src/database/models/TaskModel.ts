@@ -1,5 +1,6 @@
 import MongooseHelper from '@/helpers/MongooseHelper'
 import UtilsHelper from '@/helpers/UtilsHelper'
+import DatabaseField from '@/types/enums/DatabaseField'
 import { Model } from '@/types/mongoose/Model'
 import { Schema, Types, model, models } from 'mongoose'
 
@@ -41,8 +42,8 @@ const taskSchema = new Schema<ITask>(
   {
     versionKey: false,
     timestamps: {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at'
+      createdAt: DatabaseField.CREATED_AT,
+      updatedAt: DatabaseField.UPDATED_AT
     }
   }
 )

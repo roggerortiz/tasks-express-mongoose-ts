@@ -1,5 +1,6 @@
 import MongooseHelper from '@/helpers/MongooseHelper'
 import PasswordHelper from '@/helpers/PasswordHelper'
+import DatabaseField from '@/types/enums/DatabaseField'
 import { Model } from '@/types/mongoose/Model'
 import { Schema, model, models } from 'mongoose'
 
@@ -46,8 +47,8 @@ const userSchema = new Schema<IUser>(
   {
     versionKey: false,
     timestamps: {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at'
+      createdAt: DatabaseField.CREATED_AT,
+      updatedAt: DatabaseField.UPDATED_AT
     }
   }
 )
