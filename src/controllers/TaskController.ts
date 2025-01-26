@@ -11,6 +11,12 @@ import { NextFunction, Response } from 'express'
 
 export default class TaskController {
   static async getAll(req: Request, res: Response, next: NextFunction) {
+    /*
+      #swagger.tags = ['Task']
+      #swagger.security = [{
+          "bearerAuth": []
+      }]
+    */
     try {
       const pager: Pager = RequestHelper.pager(req)
       const params: GetTasks = {
@@ -25,6 +31,12 @@ export default class TaskController {
   }
 
   static async getById(req: Request, res: Response, next: NextFunction) {
+    /*
+      #swagger.tags = ['Task']
+      #swagger.security = [{
+          "bearerAuth": []
+      }]
+    */
     try {
       const id: string = req.params.id
       const task = await TaskService.findById(id)
@@ -40,6 +52,12 @@ export default class TaskController {
   }
 
   static async create(req: Request, res: Response, next: NextFunction) {
+    /*
+      #swagger.tags = ['Task']
+      #swagger.security = [{
+          "bearerAuth": []
+      }]
+    */
     try {
       const data: CreateTask = {
         title: req.body.title,
@@ -55,6 +73,12 @@ export default class TaskController {
   }
 
   static async update(req: Request, res: Response, next: NextFunction) {
+    /*
+      #swagger.tags = ['Task']
+      #swagger.security = [{
+          "bearerAuth": []
+      }]
+    */
     try {
       const id: string = req.params.id
       const data: UpdateTask = {
@@ -75,6 +99,12 @@ export default class TaskController {
   }
 
   static async delete(req: Request, res: Response, next: NextFunction) {
+    /*
+      #swagger.tags = ['Task']
+      #swagger.security = [{
+          "bearerAuth": []
+      }]
+    */
     try {
       const id: string = req.params.id
       const task = await TaskService.delete(id)

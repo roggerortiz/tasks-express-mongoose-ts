@@ -1,9 +1,14 @@
 import DatabaseField from '@/types/enums/DatabaseField'
 import SortDirection from '@/types/enums/SortDirection'
 import Pager from '@/types/pagination/Pager'
-import { Model, PipelineStage } from 'mongoose'
+import mongoose, { Model, PipelineStage } from 'mongoose'
+import EnvHelper from './EnvHelper'
 
 export default class MongooseHelper {
+  static async connect() {
+    await mongoose.connect(EnvHelper.MONGO_URI)
+  }
+
   static uniqueValidatorFn<T>(model: Model<T>, field: string) {
     return async function (value: any) {
       const self: any = this as any

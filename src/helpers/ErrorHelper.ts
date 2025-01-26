@@ -3,8 +3,8 @@ import BadRequestError from '@/types/errors/BadRequestError'
 import ForbiddenError from '@/types/errors/ForbiddenError'
 import NotFoundError from '@/types/errors/NotFoundError'
 import UnauthorizedError from '@/types/errors/UnauthorizedError'
-import console from 'console'
 import { TokenExpiredError } from 'jsonwebtoken'
+import console from 'node:console'
 import { ZodError } from 'zod'
 
 export default class ErrorHelper {

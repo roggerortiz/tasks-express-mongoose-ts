@@ -9,6 +9,9 @@ import { NextFunction, Response } from 'express'
 
 export default class AuthController {
   static async login(req: Request, res: Response, next: NextFunction) {
+    /*
+      #swagger.tags = ['Auth']
+    */
     try {
       const username: string = req.body.username
       const password: string = req.body.password
@@ -26,6 +29,9 @@ export default class AuthController {
   }
 
   static async signup(req: Request, res: Response, next: NextFunction) {
+    /*
+      #swagger.tags = ['Auth']
+    */
     try {
       const data: CreateUser = {
         first_name: req.body.first_name,
@@ -50,6 +56,12 @@ export default class AuthController {
   }
 
   static async profile(req: Request, res: Response, next: NextFunction) {
+    /*
+      #swagger.tags = ['Auth']
+      #swagger.security = [{
+          "bearerAuth": []
+      }]
+    */
     try {
       res.status(ResponseStatus.SUCCESS).json(req.user)
     } catch (error) {
@@ -58,6 +70,12 @@ export default class AuthController {
   }
 
   static async update(req: Request, res: Response, next: NextFunction) {
+    /*
+      #swagger.tags = ['Auth']
+      #swagger.security = [{
+          "bearerAuth": []
+      }]
+    */
     try {
       const id: string = req.user?.id ?? ''
       const data: UpdateUser = {

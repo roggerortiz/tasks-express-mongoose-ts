@@ -1,16 +1,19 @@
+import express from 'express'
 import console from 'node:console'
-import { connectDB } from './database'
-import EnvHelper from './helpers/EnvHelper'
-import app from './server'
+import MongooseHelper from './helpers/MongooseHelper'
+import ServerHelper from './helpers/ServerHelper'
+import SwaggerHelper from './helpers/SwaggerHelper'
 
-const startServer = async () => {
+const app = express()
+
+const start = async () => {
   try {
-    await connectDB()
-    app.listen(EnvHelper.PORT)
-    console.log(`Server ready: http://localhost:${EnvHelper.PORT}/api/v1`)
+    await SwaggerHelper.generate()
+    await MongooseHelper.connect()
+    ServerHelper.listen(app)
   } catch (error: any) {
     console.log(error.message)
   }
 }
 
-startServer()
+start()

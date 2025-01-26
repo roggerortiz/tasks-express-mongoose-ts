@@ -6,4 +6,5 @@ export default class EnvHelper {
   static BCRYPT_SALT_ROUNDS: number = Number(process.env.BCRYPT_SALT_ROUNDS) || 10
   static JWT_PRIVATE_KEY: string = process.env.JWT_PRIVATE_KEY || ''
   static MONGO_URI: string = process.env.MONGO_URI || ''
+  static SERVER_HOST: string = process.env.SERVER_HOST || ''
 }
