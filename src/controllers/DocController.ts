@@ -1,8 +1,7 @@
 import SwaggerHelper from '@/helpers/SwaggerHelper'
 import DocFileFormat from '@/types/enums/DocFileFormat'
 import ResponseStatus from '@/types/enums/ResponseStatus'
-import { Request } from '@/types/requests/Request'
-import { NextFunction, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 
 export default class DocController {
   static async get(req: Request, res: Response, next: NextFunction) {

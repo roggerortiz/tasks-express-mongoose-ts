@@ -23,6 +23,54 @@ export default class SwaggerHelper {
             type: 'http',
             scheme: 'bearer'
           }
+        },
+        schemas: {
+          User: {
+            id: 'string',
+            first_name: 'string',
+            last_name: 'string',
+            email: 'string',
+            phone: 'string',
+            username: 'string'
+          },
+          AuthenticatedUser: {
+            token: 'string',
+            user: {
+              $ref: '#/components/schemas/User'
+            }
+          },
+          LoginUser: {
+            $username: 'string',
+            $password: 'string'
+          },
+          SaveUser: {
+            $first_name: 'string',
+            $last_name: 'string',
+            $email: 'string',
+            $phone: 'string',
+            $username: 'string',
+            $password: 'string'
+          },
+          Task: {
+            id: 'string',
+            title: 'string',
+            slug: 'string',
+            description: 'string',
+            important: false,
+            user_id: 'string'
+          },
+          SaveTask: {
+            $title: 'string',
+            description: 'string',
+            important: false
+          },
+          Message: {
+            message: 'string'
+          },
+          Error: {
+            path: 'string',
+            message: 'string'
+          }
         }
       }
     }

@@ -5,8 +5,8 @@ import NotFoundError from '@/types/errors/NotFoundError'
 import { CreateTask, Task, UpdateTask } from '@/types/models/Task'
 import Pager from '@/types/pagination/Pager'
 import Paging from '@/types/pagination/Paging'
-import { GetTasks } from '@/types/requests/GetTasks'
-import { Request } from '@/types/requests/Request'
+import { GetTasks } from '@/types/request/GetTasks'
+import { Request } from '@/types/request/Request'
 import { NextFunction, Response } from 'express'
 
 export default class TaskController {
@@ -14,8 +14,59 @@ export default class TaskController {
     /*
       #swagger.tags = ['Task']
       #swagger.security = [{
-          "bearerAuth": []
+        'bearerAuth': []
       }]
+      #swagger.parameters['page_size'] = {
+        in: 'query',
+        type: 'number'
+      }
+      #swagger.parameters['page_index'] = {
+        in: 'query',
+        type: 'number'
+      }
+      #swagger.parameters['sort_field'] = {
+        in: 'query',
+        type: 'string'
+      }
+      #swagger.parameters['sort_direction'] = {
+        in: 'query',
+        type: 'string'
+      }
+      #swagger.parameters['free_text'] = {
+        in: 'query',
+        type: 'string'
+      }
+      #swagger.parameters['important'] = {
+        in: 'query',
+        type: 'boolean'
+      }
+      #swagger.responses[200] = {
+        content: {
+          'application/json': {
+            schema:{
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Task'
+              }
+            }
+          }
+        }
+      }
+      #swagger.responses[400] = {
+        content: {
+          'application/json': {
+            schema:{
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        }
+      }
+      #swagger.responses[401] = {}
+      #swagger.responses[403] = {}
+      #swagger.responses[500] = {}
     */
     try {
       const pager: Pager = RequestHelper.pager(req)
@@ -34,8 +85,37 @@ export default class TaskController {
     /*
       #swagger.tags = ['Task']
       #swagger.security = [{
-          "bearerAuth": []
+        'bearerAuth': []
       }]
+      #swagger.parameters['id'] = {
+        in: 'path',
+        type: 'string'
+      }
+      #swagger.responses[200] = {
+        content: {
+          'application/json': {
+            schema:{
+              $ref: '#/components/schemas/Task'
+            }
+          }
+        }
+      }
+      #swagger.responses[400] = {
+        content: {
+          'application/json': {
+            schema:{
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        }
+      }
+      #swagger.responses[401] = {}
+      #swagger.responses[403] = {}
+      #swagger.responses[404] = {}
+      #swagger.responses[500] = {}
     */
     try {
       const id: string = req.params.id
@@ -55,8 +135,42 @@ export default class TaskController {
     /*
       #swagger.tags = ['Task']
       #swagger.security = [{
-          "bearerAuth": []
+        'bearerAuth': []
       }]
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/SaveTask'
+            }
+          }
+        }
+      }
+      #swagger.responses[201] = {
+        content: {
+          'application/json': {
+            schema:{
+              $ref: '#/components/schemas/Task'
+            }
+          }
+        }
+      }
+      #swagger.responses[400] = {
+        content: {
+          'application/json': {
+            schema:{
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        }
+      }
+      #swagger.responses[401] = {}
+      #swagger.responses[403] = {}
+      #swagger.responses[500] = {}
     */
     try {
       const data: CreateTask = {
@@ -76,8 +190,47 @@ export default class TaskController {
     /*
       #swagger.tags = ['Task']
       #swagger.security = [{
-          "bearerAuth": []
+        'bearerAuth': []
       }]
+      #swagger.parameters['id'] = {
+        in: 'path',
+        type: 'string'
+      }
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/SaveTask'
+            }
+          }
+        }
+      }
+      #swagger.responses[200] = {
+        content: {
+          'application/json': {
+            schema:{
+              $ref: '#/components/schemas/Task'
+            }
+          }
+        }
+      }
+      #swagger.responses[400] = {
+        content: {
+          'application/json': {
+            schema:{
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        }
+      }
+      #swagger.responses[401] = {}
+      #swagger.responses[403] = {}
+      #swagger.responses[404] = {}
+      #swagger.responses[500] = {}
     */
     try {
       const id: string = req.params.id
@@ -102,18 +255,39 @@ export default class TaskController {
     /*
       #swagger.tags = ['Task']
       #swagger.security = [{
-          "bearerAuth": []
+        'bearerAuth': []
       }]
+      #swagger.parameters['id'] = {
+        in: 'path',
+        type: 'string'
+      }
+      #swagger.responses[204] = {}
+      #swagger.responses[400] = {
+        content: {
+          'application/json': {
+            schema:{
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        }
+      }
+      #swagger.responses[401] = {}
+      #swagger.responses[403] = {}
+      #swagger.responses[404] = {}
+      #swagger.responses[500] = {}
     */
     try {
       const id: string = req.params.id
-      const task = await TaskService.delete(id)
+      const success: boolean = await TaskService.delete(id)
 
-      if (!task) {
+      if (!success) {
         throw new NotFoundError()
       }
 
-      res.status(ResponseStatus.SUCCESS).json(task)
+      res.status(ResponseStatus.NO_CONTENT).json()
     } catch (error) {
       next(error)
     }

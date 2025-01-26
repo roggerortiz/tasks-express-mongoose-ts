@@ -4,13 +4,52 @@ import ResponseStatus from '@/types/enums/ResponseStatus'
 import BadRequestError from '@/types/errors/BadRequestError'
 import NotFoundError from '@/types/errors/NotFoundError'
 import { CreateUser, UpdateUser, User } from '@/types/models/User'
-import { Request } from '@/types/requests/Request'
+import { Request } from '@/types/request/Request'
 import { NextFunction, Response } from 'express'
 
 export default class AuthController {
   static async login(req: Request, res: Response, next: NextFunction) {
     /*
       #swagger.tags = ['Auth']
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/LoginUser'
+            }
+          }
+        }
+      }
+      #swagger.responses[200] = {
+        content: {
+          'application/json': {
+            schema:{
+              $ref: '#/components/schemas/AuthenticatedUser'
+            }
+          }
+        }
+      }
+      #swagger.responses[400] = {
+        content: {
+          'application/json': {
+            schema: {
+              oneOf: [
+                {
+                  $ref: '#/components/schemas/Message'
+                },
+                {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/Error'
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+      #swagger.responses[500] = {}
     */
     try {
       const username: string = req.body.username
@@ -31,6 +70,38 @@ export default class AuthController {
   static async signup(req: Request, res: Response, next: NextFunction) {
     /*
       #swagger.tags = ['Auth']
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/SaveUser'
+            }
+          }
+        }
+      }
+      #swagger.responses[201] = {
+        content: {
+          'application/json': {
+            schema:{
+              $ref: '#/components/schemas/AuthenticatedUser'
+            }
+          }
+        }
+      }
+      #swagger.responses[400] = {
+        content: {
+          'application/json': {
+            schema:{
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        }
+      }
+      #swagger.responses[500] = {}
     */
     try {
       const data: CreateUser = {
@@ -59,8 +130,20 @@ export default class AuthController {
     /*
       #swagger.tags = ['Auth']
       #swagger.security = [{
-          "bearerAuth": []
+          'bearerAuth': []
       }]
+      #swagger.responses[200] = {
+        content: {
+          'application/json': {
+            schema:{
+              $ref: '#/components/schemas/User'
+            }
+          }
+        }
+      }
+      #swagger.responses[401] = {}
+      #swagger.responses[403] = {}
+      #swagger.responses[500] = {}
     */
     try {
       res.status(ResponseStatus.SUCCESS).json(req.user)
@@ -73,8 +156,43 @@ export default class AuthController {
     /*
       #swagger.tags = ['Auth']
       #swagger.security = [{
-          "bearerAuth": []
+          'bearerAuth': []
       }]
+      #swagger.requestBody = {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/SaveUser'
+            }
+          }
+        }
+      }
+      #swagger.responses[200] = {
+        content: {
+          'application/json': {
+            schema:{
+              $ref: '#/components/schemas/User'
+            }
+          }
+        }
+      }
+      #swagger.responses[400] = {
+        content: {
+          'application/json': {
+            schema:{
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        }
+      }
+      #swagger.responses[401] = {}
+      #swagger.responses[403] = {}
+      #swagger.responses[404] = {}
+      #swagger.responses[500] = {}
     */
     try {
       const id: string = req.user?.id ?? ''

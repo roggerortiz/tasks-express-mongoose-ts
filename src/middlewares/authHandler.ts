@@ -1,7 +1,7 @@
 import JwtHelper from '@/helpers/JwtHelper'
 import ForbiddenError from '@/types/errors/ForbiddenError'
 import { User } from '@/types/models/User'
-import { Request } from '@/types/requests/Request'
+import { Request } from '@/types/request/Request'
 import { NextFunction, Response } from 'express'
 import { JwtPayload } from 'jsonwebtoken'
 

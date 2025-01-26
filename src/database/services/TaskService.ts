@@ -1,7 +1,7 @@
 import { CreateTask, Task, UpdateTask } from '@/types/models/Task'
 import Pager from '@/types/pagination/Pager'
 import Paging from '@/types/pagination/Paging'
-import { GetTasks } from '@/types/requests/GetTasks'
+import { GetTasks } from '@/types/request/GetTasks'
 import { HydratedDocument } from 'mongoose'
 import BaseModel from '../models/BaseModel'
 import TaskModel, { ITask } from '../models/TaskModel'
@@ -31,8 +31,8 @@ export default class TaskService {
     return BaseModel.toJSON<ITask, Task>(document)
   }
 
-  static async delete(id: string): Promise<Task | null> {
+  static async delete(id: string): Promise<boolean> {
     const document: HydratedDocument<ITask> | null = await TaskModel.findOneAndDelete({ _id: id })
-    return BaseModel.toJSON<ITask, Task>(document)
+    return document !== null
   }
 }
