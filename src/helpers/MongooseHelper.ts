@@ -33,11 +33,6 @@ export default class MongooseHelper {
     return aggregation
   }
 
-  private static fullText(phrase: string) {
-    const exp: Array<string> = phrase.split(' ')
-    return exp.map((word: string) => '"' + word + '"').join(' ')
-  }
-
   private static aggregateMatch(filters: any) {
     const match: any = {}
     const entries: any[] = Object.entries(filters)
@@ -46,7 +41,7 @@ export default class MongooseHelper {
       .filter(([, value]) => value !== undefined)
       .forEach(([key, value]) => {
         if (key.toLowerCase() === DatabaseField.FREE_TEXT) {
-          match.$text = { $search: MongooseHelper.fullText(value) }
+          match.$text = { $search: value }
         } else {
           match[key] = value
         }

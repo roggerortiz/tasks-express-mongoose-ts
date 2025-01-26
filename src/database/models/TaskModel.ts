@@ -48,6 +48,9 @@ const taskSchema = new Schema<ITask>(
   }
 )
 
+// taskSchema.index({ '$**': 'text' })
+taskSchema.index({ title: 'text', description: 'text' })
+
 const TaskModel = model<ITask, Model<ITask>>('Task', taskSchema, 'tasks')
 
 taskSchema
